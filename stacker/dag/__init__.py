@@ -169,6 +169,30 @@ class DAG(object):
 
         return not failed
 
+    def transitive_reduction(self):
+        """ Performs a transitive reduction on the DAG. The transitive
+        reduction of a graph is a graph with as few edges as possible with the
+        same reachability as the original graph.
+
+        See https://en.wikipedia.org/wiki/Transitive_reduction
+        """
+
+        graph = self.graph
+        for x in graph.keys():
+            for y in graph.keys():
+                for z in graph.keys():
+                    # Edge from x -> y
+                    xy = y in graph[x]
+                    # Edge from y -> x
+                    yz = z in graph[y]
+                    # Edge from x -> z
+                    xz = z in graph[x]
+
+                    # If edges xy and yz exist, remove edge xz.
+                    if xz and xy and yz:
+                        logger.debug("Removing edge %s -> %s" % (x, z))
+                        graph[x].remove(z)
+
     def rename_edges(self, old_node_name, new_node_name):
         """ Change references to a node in existing edges.
 

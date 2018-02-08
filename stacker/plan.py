@@ -209,6 +209,8 @@ def build_graph(steps):
         for dep in step.requires:
             graph.connect(step, dep)
 
+    graph.transitive_reduction()
+
     return graph
 
 
@@ -251,6 +253,9 @@ class Graph(object):
         except DAGValidationError as e:
             raise GraphError(e, step.name, dep)
 
+    def transitive_reduction(self):
+        self.dag.transitive_reduction()
+
     def walk(self, walker, walk_func):
         def fn(step_name):
             step = self.steps[step_name]
@@ -278,6 +283,15 @@ class Graph(object):
 
     def to_dict(self):
         return self.dag.graph
+
+    def to_dot(self, name="dag"):
+        m = "digraph %s {\n" % name
+        for node, deps in self.dag.graph.items():
+            for dep in deps:
+                m += "  \"%s\" -> \"%s\";\n" % (node, dep)
+        m += "}"
+
+        return m
 
 
 class Plan(object):

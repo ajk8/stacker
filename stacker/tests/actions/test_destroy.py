@@ -47,14 +47,11 @@ class TestDestroyAction(unittest.TestCase):
             {
                 'namespace-vpc': set(
                     [
-                        'namespace-db',
-                        'namespace-instance',
                         'namespace-bastion']),
                 'namespace-other': set([]),
                 'namespace-bastion': set(
                     [
-                        'namespace-instance',
-                        'namespace-db']),
+                        'namespace-instance']),
                 'namespace-instance': set(
                     [
                         'namespace-db']),

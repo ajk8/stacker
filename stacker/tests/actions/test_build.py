@@ -112,7 +112,7 @@ class TestBuildAction(unittest.TestCase):
         plan = build_action._generate_plan()
         self.assertEqual(
             {
-                'namespace-db': set(['namespace-bastion', 'namespace-vpc']),
+                'namespace-db': set(['namespace-bastion']),
                 'namespace-bastion': set(['namespace-vpc']),
                 'namespace-other': set([]),
                 'namespace-vpc': set([])},
