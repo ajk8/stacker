@@ -350,6 +350,8 @@ class Config(Model):
 
     namespace_delimiter = StringType(serialize_when_none=False)
 
+    bucket = ModelType(Stack, serialize_when_none=False)
+
     stacker_bucket = StringType(serialize_when_none=False)
 
     stacker_bucket_region = StringType(serialize_when_none=False)

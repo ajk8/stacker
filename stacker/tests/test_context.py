@@ -23,7 +23,7 @@ class TestContext(unittest.TestCase):
 
     def test_context_get_stacks(self):
         context = Context(config=self.config)
-        self.assertEqual(len(context.get_stacks()), 2)
+        self.assertEqual(len(context.get_stacks()), 3)
 
     def test_context_get_stacks_dict_use_fqn(self):
         context = Context(config=self.config)

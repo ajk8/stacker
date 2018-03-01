@@ -34,7 +34,7 @@ class TestStack(unittest.TestCase):
             requires=[self.context.get_fqn("fakeStack")],
         )
         stack = Stack(definition=definition, context=self.context)
-        self.assertEqual(len(stack.requires), 2)
+        self.assertEqual(len(stack.requires), 3)
         self.assertIn(
             self.context.get_fqn("fakeStack"),
             stack.requires,

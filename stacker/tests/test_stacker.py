@@ -76,7 +76,7 @@ class TestStacker(unittest.TestCase):
         )
         stacker.configure(args)
         stacks = args.context.get_stacks()
-        self.assertEqual(len(stacks), 2)
+        self.assertEqual(len(stacks), 3)
 
     def test_stacker_build_fail_when_parameters_in_stack_def(self):
         stacker = Stacker()

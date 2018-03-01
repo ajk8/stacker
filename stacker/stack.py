@@ -72,6 +72,13 @@ class Stack(object):
         self.protected = protected
         self.context = copy.deepcopy(context)
 
+        self.bucket_stack = None
+        self.bucket_name = None
+        if self.context.bucket_stack:
+            if self.name != self.context.bucket_stack.name:
+                self.bucket_stack = self.context.get_fqn(
+                    self.context.bucket_stack.name)
+
     def __repr__(self):
         return self.fqn
 
@@ -79,6 +86,9 @@ class Stack(object):
     def requires(self):
         requires = set([self.context.get_fqn(r) for r in
                         self.definition.requires or []])
+
+        if self.bucket_stack:
+            requires.add(self.bucket_stack)
 
         # Add any dependencies based on output lookups
         for variable in self.variables:
@@ -172,5 +182,8 @@ class Stack(object):
                 the base provider
 
         """
+        if self.bucket_stack:
+            self.bucket_name = provider.get_output(
+                self.bucket_stack, "BucketId")
         resolve_variables(self.variables, context, provider)
         self.blueprint.resolve_variables(self.variables)

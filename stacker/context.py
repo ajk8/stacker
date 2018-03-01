@@ -2,6 +2,7 @@ import collections
 import logging
 
 from stacker.config import Config
+from stacker import config
 from .stack import Stack
 
 logger = logging.getLogger(__name__)
@@ -116,7 +117,25 @@ class Context(object):
     def mappings(self):
         return self.config.mappings or {}
 
+    @property
+    def bucket_stack(self):
+        if self.config.stacker_bucket == '':
+            return None
+        if self.config.bucket:
+            return self.config.bucket
+
+        # If no explicit stack is provided in the config, fallback to a default
+        # stack that creates the bucket.
+        return config.Stack({
+            "name": "stacker-bucket",
+            "class_path": "stacker.blueprints.StackerBucket",
+            "tags": self.tags,
+            "variables": {
+                "BucketName": str(self.bucket_name or "")}})
+
     def _get_stack_definitions(self):
+        if self.bucket_stack:
+            return self.config.stacks + [self.bucket_stack]
         return self.config.stacks
 
     def get_stacks(self):
